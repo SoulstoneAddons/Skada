@@ -7,6 +7,9 @@ Damage meter plugin for Soulstone Survivors using BepInEx
 * [BepInEx 6 (IL2CPP)](https://docs.bepinex.dev/master/articles/user_guide/installation/unity_il2cpp.html)
 
 ## Installation
+* Download BepInEx Bleeding Edge build from [here](https://builds.bepinex.dev/projects/bepinex_be)
+* Click on Artifacts and download Unity IL2CPP x64
+* Follow the instructions [here](https://docs.bepinex.dev/master/articles/user_guide/installation/unity_il2cpp.html)
 * Download the plugin from [Releases](https://github.com/SoulstoneMeter/Skada/releases/latest)
 * Extract the zip file in `Soulstone Survivors\BepInEx\plugins`
 * Start the game!
