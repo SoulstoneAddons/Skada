@@ -67,17 +67,21 @@ public sealed class PlayerDamageMeterSkadaView : ISkadaView
 				float percent = skillData.GetPercent(totalDamage);
 				
 				// get the position of the GUI
-				Rect position = GUILayoutUtility.GetRect(0, 20);
+				Rect position = GUILayoutUtility.GetRect(0, ResUtility.GetHeight(20));
 				
 				// draw the percentage bar
 				GUI.Box(new Rect(position.x, position.y, windowRect.width * percent, position.height), 
 					"", BarStyle);
+				
+				// set font size scaled by the resolution
+				GUI.skin.label.fontSize = ResUtility.GetFontSize(14);
 
 				// write the spell name, damage, and percentage to the GUI
 				GUI.Label(new Rect(position.x, position.y, position.width, position.height),
 					$"{skillData.SkillName} - {damage.ToHumanReadableString()} - {percent:P2}");
 				
-				GUILayout.Space(5);
+				// Add some space between the bars
+				GUILayout.Space(ResUtility.GetHeight(5));
 				
 				// GUILayout.Label($"{skillData.SkillName} - {damage.ToHumanReadableString()} - {percent:P2}%");
 				
