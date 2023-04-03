@@ -31,6 +31,8 @@ internal static class PlayerSkadaHistory
 	public static Il2CppReferenceArray<GameStatsSkillData> DamageBySpells => 
 		GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNew;
 
+	public static int DamageBySpellsCount => GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNewCount;
+
 	/// <summary>
 	/// Ordered array of spells by damage
 	/// </summary>

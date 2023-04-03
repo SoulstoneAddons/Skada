@@ -10,7 +10,7 @@ namespace SoulstoneSurvivorsSkada.Views;
 public sealed class PlayerDamageMeterSkadaView : ISkadaView
 {
 	public int ScrollPosition { get; set; }
-	public string Title { get; set; } = "Skada - Player Direct Damage";
+	public string Title { get; set; } = "Skada - Player Damage";
 
 	/// <summary>
 	/// Style for the Bar
