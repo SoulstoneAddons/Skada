@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections.Generic;
 using SoulstoneSurvivorsSkada.Extensions;
@@ -21,9 +22,12 @@ public sealed class PlayerDamageMeterSkadaView : ISkadaView
 		{
 			background = BarTexture
 		},
-		fixedHeight = 20
+		overflow = new RectOffset(0,0,0,0),
+		fixedHeight = ResUtility.GetHeight(20)
 	};
 
+	private static readonly Texture2D Texture = BarTexture;
+	
 	/// <summary>
 	/// Texture for the Bar
 	/// </summary>
@@ -48,6 +52,7 @@ public sealed class PlayerDamageMeterSkadaView : ISkadaView
 		{
 			// save spells into a variable to avoid multiple calls
 			float totalDamage = PlayerSkadaHistory.PlayerTotalDamage;
+			
 			Il2CppReferenceArray<GameStatsSkillData> spells = PlayerSkadaHistory.DamageBySpellsOrdered;
 			
 			GUILayout.Label($"DPS: {PlayerSkadaHistory.PlayerDps.ToHumanReadableString()}");
@@ -62,23 +67,27 @@ public sealed class PlayerDamageMeterSkadaView : ISkadaView
 				if (skillData.SkillNameHash == 0) continue;
 				// get the damage value and make it positive
 				float damage = Mathf.Abs(skillData.FloatValue);
-				
 				// calculate the percentage of the damage
 				float percent = skillData.GetPercent(totalDamage);
 				
 				// get the position of the GUI
 				Rect position = GUILayoutUtility.GetRect(0, ResUtility.GetHeight(20));
+
+				BarStyle.fixedHeight = ResUtility.GetHeight(20);
 				
 				// draw the percentage bar
-				GUI.Box(new Rect(position.x, position.y, windowRect.width * percent, position.height), 
+				GUI.Box(new Rect(0, position.y, windowRect.width * percent, position.height), 
 					"", BarStyle);
-				
-				// set font size scaled by the resolution
-				GUI.skin.label.fontSize = ResUtility.GetFontSize(14);
 
+				string text = $"{skillData.SkillName} - {damage.ToHumanReadableString()} - {percent:P2}";
+
+				// set font size
+				GUI.skin.label.fontSize = ResUtility.GetFontSize(12);
+				
 				// write the spell name, damage, and percentage to the GUI
-				GUI.Label(new Rect(position.x, position.y, position.width, position.height),
-					$"{skillData.SkillName} - {damage.ToHumanReadableString()} - {percent:P2}");
+				// allow overflow to the next line
+				GUI.Label(new Rect(0, position.y, windowRect.width, position.height),
+					text);
 				
 				// Add some space between the bars
 				GUILayout.Space(ResUtility.GetHeight(5));

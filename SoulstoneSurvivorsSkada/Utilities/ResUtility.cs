@@ -19,6 +19,6 @@ public static class ResUtility
 
 	public static int GetFontSize(int i)
 	{
-		return (int) (i * (Screen.width / DefaultWidth));
+		return (int) (i * (Screen.height / DefaultHeight));
 	}
 }

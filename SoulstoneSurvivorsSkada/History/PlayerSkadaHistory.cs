@@ -36,27 +36,23 @@ internal static class PlayerSkadaHistory
 	/// <summary>
 	/// Ordered array of spells by damage
 	/// </summary>
-	public static Il2CppReferenceArray<GameStatsSkillData> DamageBySpellsOrdered { get; set; } = Sort();
-		
-	/// <summary>
-	/// Sort the spells by damage in ascending order
-	/// </summary>
-	/// <returns></returns>
-	public static Il2CppReferenceArray<GameStatsSkillData> Sort()
+	public static Il2CppReferenceArray<GameStatsSkillData> DamageBySpellsOrdered =
+		SortDamageBySpellsOrdered();
+	
+	public static Il2CppReferenceArray<GameStatsSkillData> SortDamageBySpellsOrdered()
 	{
-		// get the array of spells
 		Il2CppReferenceArray<GameStatsSkillData> spells = DamageBySpells;
-		// get the length of the array
-		int length = spells.Length;
-		// if the array is empty or has only one element
-		if (length <= 1)
-			// return the array
-			return spells;
-		
-		// sort the array
-		Array.Sort<GameStatsSkillData>(spells, (a, b) => b.FloatValue.CompareTo(a.FloatValue));
-		
-		// return the ordered array
+		for (int a = 0; a < spells.Count - 1; a++)
+		{
+			for (int b = 0; b < spells.Count - a - 1; b++)
+			{
+				if (spells[b].FloatValue > spells[b + 1].FloatValue)
+				{
+					(spells[b], spells[b + 1]) = (spells[b + 1], spells[b]);
+				}
+			}
+		}
+
 		return spells;
 	}
 
