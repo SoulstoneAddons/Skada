@@ -8,6 +8,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections.Generic;
 using Il2CppSystem.IO;
+using SoulstoneSurvivorsSkada.Logging;
 using SoulstoneSurvivorsSkada.Patchers;
 using SoulstoneSurvivorsSkada.Views;
 using UnityEngine;
@@ -77,10 +78,10 @@ internal sealed class Bootstrapper : MonoBehaviour
 			return;
 		
 		// every second order the spells by damage to reduce the calls
-		if (Time.time % 1.0f < 0.01f)
+		if (Time.frameCount % 60 == 0)
 		{
 			// order the spells by damage in ascending order
-			PlayerSkadaHistory.DamageBySpellsOrdered = PlayerSkadaHistory.Sort();
+			PlayerSkadaHistory.DamageBySpellsOrdered = PlayerSkadaHistory.SortDamageBySpellsOrdered();
 		}
 	}
 
