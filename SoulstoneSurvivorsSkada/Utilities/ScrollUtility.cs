@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using BepInEx.Logging;
+using SoulstoneSurvivorsSkada.Logging;
+using UnityEngine;
 
 namespace SoulstoneSurvivorsSkada;
 
@@ -22,7 +24,7 @@ internal static class ScrollUtility
 		}
 		
 		// calculate how many items are visible
-		float availableItems = Mathf.Round(scrollableHeight / itemHeight / 2.0f);
+		int availableItems = Mathf.RoundToInt(scrollableHeight / itemHeight / 2.0f);
 		
 		// get scroll delta
 		delta = Event.current.delta.y;
@@ -31,7 +33,8 @@ internal static class ScrollUtility
 		switch (delta)
 		{
 			// scroll down when delta is positive and there are more items to scroll
-			case > 0 when PlayerSkadaHistory.DamageBySpells.Count > scrollPosition + availableItems:
+			case > 0 when PlayerSkadaHistory.DamageBySpellsCount > scrollPosition + availableItems:
+				LogManager.Log(LogLevel.Info, $"Scrolling down. ScrollPosition: {scrollPosition}, AvailableItems: {availableItems}");
 				// scroll down
 				scrollPosition += 1;
 				return true; // return true to indicate that the scroll position has changed
