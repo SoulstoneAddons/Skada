@@ -34,7 +34,7 @@ internal static class PlayerSkadaHistory
 	/// <summary>
 	/// Ordered array of spells by damage
 	/// </summary>
-	public static Il2CppReferenceArray<GameStatsSkillData> DamageBySpellsOrdered { get; } = Sort();
+	public static Il2CppReferenceArray<GameStatsSkillData> DamageBySpellsOrdered { get; set; } = Sort();
 		
 	/// <summary>
 	/// Sort the spells by damage in ascending order
