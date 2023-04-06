@@ -1,7 +1,7 @@
 # Skada
 Damage meter plugin for Soulstone Survivors using BepInEx
 
-![image](https://user-images.githubusercontent.com/104068185/230291789-d0ba747d-016c-4e3d-b48b-45581e9b6e78.png)
+![image](https://user-images.githubusercontent.com/104068185/230424508-8bd7d842-7b74-43eb-b408-da4b97f649fd.png)
 
 
 ## Requirements
