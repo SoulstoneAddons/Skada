@@ -1,9 +1,11 @@
 ﻿using System;
 using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using SoulstoneSurvivorsSkada.Logging;
+using SoulstoneSurvivorsSkada.Mapper;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -28,7 +30,7 @@ internal sealed class SkadaPlugin : BasePlugin
 	{
 		LogManager.SetLogger(Log);
 	}
-	
+
 	/// <summary>
 	/// Called when the plugin is loaded
 	/// </summary>
@@ -37,7 +39,6 @@ internal sealed class SkadaPlugin : BasePlugin
 		try
 		{
 			_bootstrapper = AddComponent<Bootstrapper>();
-			Object.DontDestroyOnLoad(_bootstrapper.gameObject);
 		}
 		catch (Exception ex)
 		{

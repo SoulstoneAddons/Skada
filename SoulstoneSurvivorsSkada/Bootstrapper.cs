@@ -8,7 +8,9 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppSystem.Collections.Generic;
 using Il2CppSystem.IO;
+using SoulstoneSurvivorsSkada.Gui;
 using SoulstoneSurvivorsSkada.Logging;
+using SoulstoneSurvivorsSkada.Mapper;
 using SoulstoneSurvivorsSkada.Patchers;
 using SoulstoneSurvivorsSkada.Views;
 using UnityEngine;
@@ -20,6 +22,8 @@ namespace SoulstoneSurvivorsSkada;
 /// </summary>
 internal sealed class Bootstrapper : MonoBehaviour
 {
+	private static Titlebar titlebar;
+	
 	// Required for BepInEx
 	public Bootstrapper(IntPtr ptr) : base(ptr)
 	{
@@ -34,6 +38,14 @@ internal sealed class Bootstrapper : MonoBehaviour
 		SkadaPlugin.Harmony.PatchAll(typeof(Bootstrapper));
 		SkadaPlugin.Harmony.PatchAll(typeof(GamePatches));
 		
+		IconMap.LoadIcons();
+
+		titlebar = new TitlebarFactory()
+			.AddButton("DPS", Window.ChangeView<PlayerDamageMeterSkadaView>)
+			.AddButton("HPS", Window.ChangeView<PlayerDpsSkadaView>)
+			.Build();
+		
+
 		// Change damage meter view to default view
 		// Any type that inherits ISkadaView can be used
 		// the instances are cached for performance and reusability
@@ -60,12 +72,14 @@ internal sealed class Bootstrapper : MonoBehaviour
 		
 		// set the background color of Window to black for eye candy
 		GUI.backgroundColor = Color.black;
+		GUI.skin.window.alignment = TextAnchor.UpperLeft;
 
 		// create the window of damage meter
 		windowRect = GUI.Window(0,
 			windowRect,
 			(GUI.WindowFunction)DrawSkadaWindow,
-			Window.CurrentView.Title);
+			Window.CurrentView.Title,
+			GUI.skin.window);
 	}
 
 	private void Update()
@@ -93,6 +107,8 @@ internal sealed class Bootstrapper : MonoBehaviour
 	// Make the contents of the window
 	private static void DrawSkadaWindow(int windowID)
 	{
+		titlebar.Draw(ref windowRect);
+		
 		// Make a very long rect that is 20 pixels tall.
 		// This will make the window be resizable by the top
 		// title bar - no matter how wide it gets.
@@ -103,13 +119,13 @@ internal sealed class Bootstrapper : MonoBehaviour
 
 		// if the scroll position is not 0 then scroll the window
 		if (ScrollUtility.Scroll(windowRect.height,
-			    ResUtility.GetHeight(20),
+			    ResUtility.GetHeight(30),
 			    ref scrollPosition, out _))
 		{
 			// set the scroll position
 			Window.CurrentView.ScrollPosition = scrollPosition;
 		}
-		
+
 		// render the current view
 		Window.CurrentView.OnGUI(ref windowRect, windowID);
 	}

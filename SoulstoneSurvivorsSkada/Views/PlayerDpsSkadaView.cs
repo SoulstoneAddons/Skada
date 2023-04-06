@@ -31,7 +31,7 @@ public sealed class PlayerDpsSkadaView : ISkadaView
 	
 	public void OnEnable()
 	{
-		// TODO implement view logic
+		
 	}
 
 	/// <summary>
@@ -39,6 +39,5 @@ public sealed class PlayerDpsSkadaView : ISkadaView
 	/// </summary>
 	public void OnDisable()
 	{
-		// TODO implement view logic
 	}
 }
