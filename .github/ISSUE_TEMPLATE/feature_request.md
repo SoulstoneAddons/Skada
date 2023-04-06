@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: "[SUGGESTION]"
+title: "[Suggestion] Placeholder"
 labels: enhancement
 assignees: NadeonCH
 
