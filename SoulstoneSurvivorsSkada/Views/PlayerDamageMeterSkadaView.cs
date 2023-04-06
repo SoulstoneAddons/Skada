@@ -12,40 +12,26 @@ public sealed class PlayerDamageMeterSkadaView : ISkadaView
 {
 	public int ScrollPosition { get; set; }
 	public string Title { get; set; } = "Skada - Player Damage";
-
-	/// <summary>
-	/// Style for the Bar
-	/// </summary>
-	private static readonly GUIStyle BarStyle = new(GUI.skin.box)
+	
+	private static GUIStyle BarStyle = new GUIStyle(GUI.skin.box)
 	{
 		normal =
 		{
-			background = BarTexture
+			background = TextureUtility.BarTexture
 		},
 		overflow = new RectOffset(0,0,0,0),
 		fixedHeight = ResUtility.GetHeight(20)
 	};
 
-	private static readonly Texture2D Texture = BarTexture;
-	
-	/// <summary>
-	/// Texture for the Bar
-	/// </summary>
-	private static Texture2D BarTexture
+	public void OnEnable()
 	{
-		get
-		{
-			// create a 1x1 texture with red color
-			Texture2D texture = new Texture2D(1, 1, TextureFormat.RGBA32, false);
-			// set the pixel to red
-			texture.SetPixel(0, 0, Color.red);
-			// apply the changes
-			texture.Apply();
-			// return the texture
-			return texture;
-		}
 	}
-	
+
+	public void OnDisable()
+	{
+		
+	}
+
 	public void OnGUI(ref Rect windowRect, int windowID)
 	{
 		GUILayout.BeginVertical();
@@ -74,10 +60,12 @@ public sealed class PlayerDamageMeterSkadaView : ISkadaView
 				Rect position = GUILayoutUtility.GetRect(0, ResUtility.GetHeight(20));
 
 				BarStyle.fixedHeight = ResUtility.GetHeight(20);
+
+				var barRect = new Rect(0, position.y, ResUtility.GetWidth(320) * percent, position.height);
 				
 				// draw the percentage bar
-				GUI.Box(new Rect(0, position.y, windowRect.width * percent, position.height), 
-					"", BarStyle);
+				GUI.Box(barRect, 
+					GUIContent.none, BarStyle);
 
 				string text = $"{skillData.SkillName} - {damage.ToHumanReadableString()} - {percent:P2}";
 

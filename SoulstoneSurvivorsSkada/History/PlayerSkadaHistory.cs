@@ -16,7 +16,7 @@ internal static class PlayerSkadaHistory
 	/// <summary>
 	/// If the history is empty or not
 	/// </summary>
-	public static bool IsEmpty => GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNew.Count == 0;
+	public static bool IsEmpty => GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNewCount == 0;
 	
 	public static bool IsStarted => SkadaTime.PlayerStartTime > 0;
 	

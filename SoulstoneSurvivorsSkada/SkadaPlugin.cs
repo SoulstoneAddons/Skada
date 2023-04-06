@@ -37,6 +37,7 @@ internal sealed class SkadaPlugin : BasePlugin
 		try
 		{
 			_bootstrapper = AddComponent<Bootstrapper>();
+			Object.DontDestroyOnLoad(_bootstrapper.gameObject);
 		}
 		catch (Exception ex)
 		{

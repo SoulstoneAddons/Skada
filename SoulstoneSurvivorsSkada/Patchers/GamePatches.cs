@@ -26,10 +26,10 @@ internal static class GamePatches
 	}
 	
 	// Hook into the ConfirmationPanel.OnConfirmSelected method to reset the SkadaHistory when the player restarts the game
-	[HarmonyPatch(typeof(ConfirmationPanel), nameof(ConfirmationPanel.OnConfirmSelected))]
-	[HarmonyPostfix]
-	public static void OnRestartPressed()
-	{
-		PlayerSkadaHistory.Reset();
-	}
+	// [HarmonyPatch(typeof(ConfirmationPanel), nameof(ConfirmationPanel.OnConfirmSelected))]
+	// [HarmonyPostfix]
+	// public static void OnRestartPressed()
+	// {
+	// 	PlayerSkadaHistory.Reset();
+	// }
 }

@@ -28,4 +28,17 @@ public sealed class PlayerDpsSkadaView : ISkadaView
 		float dps = PlayerSkadaHistory.PlayerDps;
 		GUILayout.Label($"DPS: {dps.ToHumanReadableString()}");
 	}
+	
+	public void OnEnable()
+	{
+		// TODO implement view logic
+	}
+
+	/// <summary>
+	/// Called when the View is disabled
+	/// </summary>
+	public void OnDisable()
+	{
+		// TODO implement view logic
+	}
 }
