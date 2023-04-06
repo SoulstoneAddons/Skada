@@ -82,6 +82,11 @@ internal sealed class Bootstrapper : MonoBehaviour
 		{
 			// order the spells by damage in ascending order
 			PlayerSkadaHistory.DamageBySpellsOrdered = PlayerSkadaHistory.SortDamageBySpellsOrdered();
+
+			if (PlayerSkadaHistory.IsEmpty)
+			{
+				PlayerSkadaHistory.Reset();
+			}
 		}
 	}
 

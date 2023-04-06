@@ -28,14 +28,18 @@ public static class Window
 		if (Views.TryGetValue(typeof(T), out ISkadaView view))
 		{
 			// set the current view to the cached view
+			_currentView?.OnDisable();
 			_currentView = view;
+			view?.OnEnable();
 			return; // return early to avoid creating a new instance
 		}
 		// create a new instance of the view
 		ISkadaView instance = Activator.CreateInstance<T>();
 		// cache the view
 		Views.Add(typeof(T), instance);
+		_currentView?.OnDisable();
 		// set the current view to the new instance
 		_currentView = instance;
+		instance?.OnEnable();
 	}
 }
