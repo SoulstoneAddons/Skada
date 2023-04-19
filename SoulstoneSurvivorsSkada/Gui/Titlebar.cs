@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SoulstoneSurvivorsSkada.Gui.Elements;
 using SoulstoneSurvivorsSkada.Gui.Interfaces;
+using SoulstoneSurvivorsSkada.Styles;
 using UnityEngine;
 
 namespace SoulstoneSurvivorsSkada.Gui;
@@ -14,7 +15,17 @@ public class Titlebar
 		_elements = elements;
 	}
 
-	public static readonly GUIStyle TitlebarButtonStyle = new(GUI.skin.button);
+	private static readonly GUIStyle TitlebarButtonStyle = new(GUI.skin.button)
+	{
+		active =
+		{
+			background = WindowStyles.CreateBackground(new Color(0.34f, 0.34f, 0.34f))
+		},
+		normal =
+		{
+			background = WindowStyles.CreateBackground(new Color(0.45f, 0.45f, 0.45f))
+		},
+	};
 
 	public void Draw(ref Rect windowRect)
 	{
@@ -28,10 +39,12 @@ public class Titlebar
 					// calculate size of button
 					Vector2 size = TitlebarButtonStyle.CalcSize(button.Content);
 					x -= size.x;
-					if (GUI.Button(new Rect(x, 0, size.x, ResUtility.GetHeight(20)), 
+					if (GUI.Toggle(new Rect(x, 0, size.x, ResUtility.GetHeight(20)), 
+						    button.State,
 						    button.Content, 
 						    TitlebarButtonStyle))
 					{
+						
 						button.Action();
 					}
 

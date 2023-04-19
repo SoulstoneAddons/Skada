@@ -24,7 +24,7 @@ public class TextureUtility
 			texture.filterMode = FilterMode.Point;
 			// apply the changes
 			texture.Apply();
-			texture.hideFlags = HideFlags.DontSave;
+			texture.hideFlags = HideFlags.HideAndDontSave;
 			// return the texture
 			return texture;
 		}

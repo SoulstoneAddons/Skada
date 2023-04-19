@@ -1,7 +1,16 @@
 ﻿using System.Runtime.CompilerServices;
-using BepInEx.Logging;
+using MelonLoader;
 
 namespace SoulstoneSurvivorsSkada.Logging;
+
+public enum LogLevel
+{
+	Debug,
+	Info,
+	Warning,
+	Error,
+	Fatal
+}
 
 /// <summary>
 /// Log Manager for logging
@@ -9,13 +18,13 @@ namespace SoulstoneSurvivorsSkada.Logging;
 internal static class LogManager
 {
 	// Logger for logging
-	private static ManualLogSource Logger { get; set; }
+	private static MelonLogger.Instance Logger { get; set; }
 	
 	/// <summary>
 	/// Set the logger for logging
 	/// </summary>
 	/// <param name="logger">logger to use</param>
-	public static void SetLogger(ManualLogSource logger)
+	public static void SetLogger(MelonLogger.Instance logger)
 	{
 		Logger = logger;
 	}
@@ -30,6 +39,23 @@ internal static class LogManager
 	{
 		// get class name
 		string log = $"[{name}] {message}";
-		Logger.Log(level, log);
+		switch (level)
+		{
+			case LogLevel.Debug:
+				Logger.Msg(log);
+				break;
+			case LogLevel.Info:
+				Logger.Msg(log);
+				break;
+			case LogLevel.Warning:
+				Logger.Warning(log);
+				break;
+			case LogLevel.Error:
+				Logger.Error(log);
+				break;
+			case LogLevel.Fatal:
+				Logger.BigError(log);
+				break;
+		}
 	}
 }

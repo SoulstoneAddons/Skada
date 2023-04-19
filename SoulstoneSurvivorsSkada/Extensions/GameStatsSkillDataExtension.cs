@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Il2Cpp;
+using UnityEngine;
 
 namespace SoulstoneSurvivorsSkada.Extensions;
 
@@ -13,5 +14,17 @@ public static class GameStatsSkillDataExtension
 	public static float GetPercent(this GameStatsSkillData data, in float total)
 	{
 		return Mathf.Abs(data.FloatValue) / total;
+	}
+	
+	public static float GetDuration(this GameStatsSkillData data)
+	{
+		return SkadaTime.GetSpellDuration(data.SkillNameHash);
+	}
+	
+	public static float GetDps(this GameStatsSkillData data)
+	{
+		float duration = data.GetDuration();
+		if (duration == 0) return 0;
+		return data.FloatValue / duration;
 	}
 }

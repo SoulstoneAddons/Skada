@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using Il2Cpp;
+using SoulstoneSurvivorsSkada.Logging;
 using UnityEngine;
 
 namespace SoulstoneSurvivorsSkada.Patchers;
@@ -25,11 +27,17 @@ internal static class GamePatches
 		}
 	}
 	
-	// Hook into the ConfirmationPanel.OnConfirmSelected method to reset the SkadaHistory when the player restarts the game
-	// [HarmonyPatch(typeof(ConfirmationPanel), nameof(ConfirmationPanel.OnConfirmSelected))]
-	// [HarmonyPostfix]
-	// public static void OnRestartPressed()
-	// {
-	// 	PlayerSkadaHistory.Reset();
-	// }
+	[HarmonyPatch(typeof(GameStats), nameof(GameStats.AddDamageDonePerSkill))]
+	[HarmonyPostfix]
+	public static void AddDamageDonePerSkill(
+		string skillId,
+		int skillHash,
+		float effectiveDamage,
+		float totalDamage,
+		string source,
+		Object context)
+	{
+		if (SkadaTime.IsSpellActive(skillHash)) return;
+		SkadaTime.StartSpell(skillHash);
+	}
 }

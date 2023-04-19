@@ -1,5 +1,4 @@
-﻿using BepInEx.Logging;
-using SoulstoneSurvivorsSkada.Logging;
+﻿using SoulstoneSurvivorsSkada.Logging;
 using UnityEngine;
 
 namespace SoulstoneSurvivorsSkada;
