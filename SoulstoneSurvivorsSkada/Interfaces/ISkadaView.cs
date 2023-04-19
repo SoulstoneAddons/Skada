@@ -25,12 +25,22 @@ public interface ISkadaView
 	public void OnGUI(ref Rect windowRect, int windowID);
 	
 	/// <summary>
-	/// Called when the View is enabled
+	/// Called when the View is active
 	/// </summary>
-	public void OnEnable();
+	public void OnActivated();
 	
 	/// <summary>
-	/// Called when the View is disabled
+	/// Called when the View is deactivated
 	/// </summary>
-	public void OnDisable();
+	public void OnDeactivated();
+
+	/// <summary>
+	/// Called every frame when the View is active
+	/// </summary>
+	public void Update();
+	
+	/// <summary>
+	/// Called each second
+	/// </summary>
+	public void LateUpdate();
 }

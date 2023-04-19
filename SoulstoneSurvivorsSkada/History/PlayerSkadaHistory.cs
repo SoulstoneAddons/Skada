@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using BepInEx.Logging;
+﻿using Il2Cpp;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
 
@@ -36,25 +32,9 @@ internal static class PlayerSkadaHistory
 	/// <summary>
 	/// Ordered array of spells by damage
 	/// </summary>
-	public static Il2CppReferenceArray<GameStatsSkillData> DamageBySpellsOrdered =
-		SortDamageBySpellsOrdered();
+	public static Il2CppReferenceArray<GameStatsSkillData> DamageBySpellsOrdered = DamageBySpells;
 	
-	public static Il2CppReferenceArray<GameStatsSkillData> SortDamageBySpellsOrdered()
-	{
-		Il2CppReferenceArray<GameStatsSkillData> spells = DamageBySpells;
-		for (int a = 0; a < spells.Count - 1; a++)
-		{
-			for (int b = 0; b < spells.Count - a - 1; b++)
-			{
-				if (spells[b].FloatValue > spells[b + 1].FloatValue)
-				{
-					(spells[b], spells[b + 1]) = (spells[b + 1], spells[b]);
-				}
-			}
-		}
-
-		return spells;
-	}
+	public static Il2CppReferenceArray<GameStatsSkillData> DpsBySpellsOrdered = DamageBySpells;
 
 	/// <summary>
 	/// Calculate the total damage done by the player
@@ -67,20 +47,42 @@ internal static class PlayerSkadaHistory
 			float total = 0;
 			
 			// loop through all spells
-			foreach (GameStatsSkillData spellData in GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNew)
+			for (int index = 0; index < GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNewCount; index++)
 			{
 				// add the damage to the total
-				total += spellData.FloatValue;
+				total += GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNew[index].FloatValue;
 			}
+
 			// return the absolute value of the total
 			return Mathf.Abs(total);
 		}
 	}
+
+	// public static void CalculateTotalDamage()
+	// {
+	// 	// create a variable to store the total damage
+	// 	float total = 0;
+	// 		
+	// 	// loop through all spells
+	// 	for (int index = 0; index < GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNewCount; index++)
+	// 	{
+	// 		// add the damage to the total
+	// 		total += GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNew[index].FloatValue;
+	// 	}
+	//
+	// 	// return the absolute value of the total
+	// 	_playerTotalDamage = Mathf.Abs(total);
+	// }
 	
 	/// <summary>
 	/// Calculate the player DPS (Damage per Second = Total Damage / Fight Duration)
 	/// </summary>
 	public static float PlayerDps => PlayerTotalDamage / FightDuration;
+
+	public static float CalculatePlayerDps(float time)
+	{
+		return PlayerTotalDamage / (time - SkadaTime.PlayerStartTime);
+	}
 	
 	/// <summary>
 	/// Start the Skada history and set the start time
@@ -98,5 +100,26 @@ internal static class PlayerSkadaHistory
 	{
 		// reset the start time
 		SkadaTime.PlayerStartTime = 0;
+	}
+	
+	public static void ClearDamageBySpells()
+	{
+		GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNewCount = 0;
+		Il2CppReferenceArray<GameStatsSkillData> skillBuffer = GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNew;
+		GameManagerUtil.GameStats.TotalDamageDonePerSkillIdNew = new Il2CppReferenceArray<GameStatsSkillData>(skillBuffer.Count);
+	}
+	
+	public static float GetDPSBySpellId(int spellId)
+	{
+		if (!SkadaTime.IsSpellActive(spellId)) return 0f;
+		foreach (GameStatsSkillData skillData in DamageBySpells)
+		{
+			if (skillData.SkillNameHash == spellId)
+			{
+				return skillData.FloatValue / SkadaTime.SpellStartTime[spellId];
+			}
+		}
+
+		return 0;
 	}
 }

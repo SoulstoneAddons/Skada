@@ -7,6 +7,7 @@ namespace SoulstoneSurvivorsSkada.Gui.Elements;
 public struct TitlebarButton : ITitlebarElement
 {
 	public GUIContent Content { get; }
+	public bool State { get; set; }
 	public Action Action { get; }
 
 	public TitlebarButton(GUIContent content, Action action)
