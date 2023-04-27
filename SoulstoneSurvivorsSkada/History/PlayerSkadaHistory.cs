@@ -100,6 +100,7 @@ internal static class PlayerSkadaHistory
 	{
 		// reset the start time
 		SkadaTime.PlayerStartTime = 0;
+		SkadaTime.ResetAllSpells();
 	}
 	
 	public static void ClearDamageBySpells()
