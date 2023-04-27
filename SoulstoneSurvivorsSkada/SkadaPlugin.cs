@@ -103,6 +103,14 @@ internal sealed class SkadaPlugin : MelonMod
 			(GUI.WindowFunction)DrawSkadaWindow,
 			Window.CurrentView.Title,
 			GUI.skin.window);
+		
+		if (WindowState.IsWindowOpen(WindowState.Settings))
+		{
+			GUI.ModalWindow(WindowState.Settings, 
+				windowRect,
+				(GUI.WindowFunction)DrawModalWindow, 
+				"Settings");
+		}
 	}
 
 	/// <summary>Runs once per frame.</summary>
@@ -118,7 +126,7 @@ internal sealed class SkadaPlugin : MelonMod
 		// check if keybind is pressed
 		if (Keyboard.current.f6Key.wasPressedThisFrame)
 		{
-			LogManager.Log(LogLevel.Info, "Toggle window");
+			LogManager.Log(LogLevel.Info, "Toggle Settings window");
 			WindowState.ToggleWindow(WindowState.Settings);
 		}
 

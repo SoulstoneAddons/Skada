@@ -39,5 +39,4 @@ public class PlayerDamageTakenSkadaHistory
 			return _damageTakenDictionary;
 		}
 	}
-
 }
